@@ -373,20 +373,18 @@ function publish_achievements
 
     cd "${git_achievements_dir}"
 
-    user=`git config --global user.name`
-
 echo "
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>
-<title>${user}'s Git Achievements</title>
+<title>ChicoTeam's Git Achievements</title>
 <link rel=\"alternate\" type=\"application/rss+xml\" title=\"rss feed\" href=\"index.rss\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>
 </head>
 <body>
 " > index.html
-    echo "<h2>${user}'s Git Achievements</h2>" >> index.html
+    echo "<h2>ChicoTeam's Git Achievements</h2>" >> index.html
 
     # STATS
     cat git-achievements | grep 'unlock_achievement ' | grep -v ' sed ' | grep -v '\${' | sed -e 's/.*unlock_achievement //g' -e 's/^"//g' -e 's/"$//g' -e 's/\$power/X/g' -e 's/\$count/X/g' -e 's/\$hooks/X/g' | sort | awk -F"\" \"" '{ print "<li><div class=\"title\">" $1 "</div><div class=\"info\">" $2 "</div></li>" }' | link_to_git_docs > all.html
@@ -441,7 +439,7 @@ There are $total Achievements. Some achievements can be leveled up depending on 
 
     # Update the RSS feed
     echo '<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel>' > index.rss
-    echo "<title>${user}'s Git Achievements</title>" >> index.rss
+    echo "<title>ChicoTeam's Git Achievements</title>" >> index.rss
     echo "<description></description>" >> index.rss
     echo "<link></link>" >> index.rss
     cat "${ACHIEVEMENTSLOGFILE}"  | grep -ve '^$' | grep -v 'Git Achievement Unlocked!' | grep -v '*' | sed -e 's/^ *//g'  -e 's/ *$//g' | awk '{ if (NR % 2 != 0) printf "<item><title>" $0 "</title>"; else printf "<description>" $0 "</description></item>\n" }' | tail -n 20 | sed '1!G;h;$!d' >> index.rss
